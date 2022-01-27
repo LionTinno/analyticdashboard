@@ -12,7 +12,7 @@ import SectionSummary from "./SectionSummary";
 import sourceIconPlus from "../assets/images/icon-plus.png";
 
 import Amplify, { API, graphqlOperation } from "aws-amplify";
-import awsExports from "../aws-exports";
+import awsExports from "./aws-exports";
 import { listProfiles } from "../graphql/queries";
 
 Amplify.configure(awsExports);
