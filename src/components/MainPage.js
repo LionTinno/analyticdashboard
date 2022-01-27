@@ -12,10 +12,18 @@ import SectionSummary from "./SectionSummary";
 import sourceIconPlus from "../assets/images/icon-plus.png";
 
 import Amplify, { API, graphqlOperation } from "aws-amplify";
-import awsExports from "src/aws-exports.js";
 import { listProfiles } from "../graphql/queries";
 
-Amplify.configure(awsExports);
+const awsmobile = {
+  aws_project_region: "ap-southeast-1",
+  aws_appsync_graphqlEndpoint:
+    "https://j5i4kl7vobf6zoqg5xj6xerexe.appsync-api.ap-southeast-1.amazonaws.com/graphql",
+  aws_appsync_region: "ap-southeast-1",
+  aws_appsync_authenticationType: "API_KEY",
+  aws_appsync_apiKey: "da2-puqkfwehuzf45f3uvql67hneda",
+};
+
+Amplify.configure(awsmobile);
 
 function MainPage() {
   const [isVisibleMainPage, setIsVisibleMainPage] = useState(false);
