@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-confingservice-dev-174216-authRole",
+      "UnauthRoleArn": "arn:aws:iam::733482507197:role/amplify-confingservice-dev-174216-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::733482507197:role/amplify-confingservice-dev-174216-authRole",
+      "Region": "ap-southeast-1",
+      "DeploymentBucketName": "amplify-confingservice-dev-174216-deployment",
+      "UnauthRoleName": "amplify-confingservice-dev-174216-unauthRole",
+      "StackName": "amplify-confingservice-dev-174216",
+      "StackId": "arn:aws:cloudformation:ap-southeast-1:733482507197:stack/amplify-confingservice-dev-174216/cea92380-7f5d-11ec-bfb5-061d355c1340",
+      "AmplifyAppId": "d2bigglvqaa7y2"
+    }
+  }
+}
