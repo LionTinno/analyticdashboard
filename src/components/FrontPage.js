@@ -1,9 +1,10 @@
+/* eslint-disable jsx-a11y/alt-text */
 import React from "react";
 
+import fordlogo from "../assets/images/logo-ford.png";
 import sourceEllipse from "../assets/images/Ellipse.png";
 import sourceEllipse1 from "../assets/images/Ellipse-1.png";
 import sourceVector from "../assets/images/Vector.png";
-import fordlogo from "../assets/images/logo-ford.png";
 
 function FrontPage(props) {
   return (

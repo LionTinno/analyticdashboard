@@ -1,39 +1,39 @@
-import React, {useState} from 'react';
-import Modal from 'react-modal';
+import React, { useState } from "react";
+import Modal from "react-modal";
 
-import iconInfo from '../assets/images/icon-info.png';
-import iconClose from '../assets/images/icon-close.png';
+import iconInfo from "../assets/images/icon-info.png";
+import iconClose from "../assets/images/icon-close.png";
 
-import ELTVLineChart from './ELTVLineChart';
+import ELTVLineChart from "./ELTVLineChart";
 
 function SectionELTV(props) {
   const BASES3URL =
-    'https://fordstorage20220103.s3.ap-southeast-1.amazonaws.com/';
+    "https://fordstorage20220103.s3.ap-southeast-1.amazonaws.com/";
 
-  const examplefilename = 'example-eltv.jpg';
+  const examplefilename = "example-eltv.jpg";
 
   const customStyles = {
     content: {
-      top: '50%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)',
-      width: '800px',
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+      width: "800px",
     },
   };
 
   function calculateTotal(w1) {
     var maxActualEltv = 0;
 
-    props.candidateList.forEach(element => {
+    props.candidateList.forEach((element) => {
       if (maxActualEltv < element.actualeltv) {
         maxActualEltv = element.actualeltv;
       }
     });
 
-    props.candidateList.forEach(element => {
+    props.candidateList.forEach((element) => {
       element.eltv =
         w1 *
         (Number.parseFloat(element.actualeltv) /
@@ -44,51 +44,51 @@ function SectionELTV(props) {
   }
 
   const [eltv_value, setValue] = useState(0);
-  const handleChange = event => {
+  const handleChange = (event) => {
     if (validateWeightFormat(event)) {
       var sum =
-        Number.parseInt(event.target.value == '' ? 0 : event.target.value) +
+        Number.parseInt(event.target.value === "" ? 0 : event.target.value) +
         props.weight.esweight +
         props.weight.iqeqweight +
         props.weight.mbtiweight;
       if (sum <= 100) {
-        setValue(event.target.value == '' ? 0 : event.target.value);
+        setValue(event.target.value === "" ? 0 : event.target.value);
         calculateTotal(event.target.value);
         props.weight.eltvweight = Number.parseInt(
-          event.target.value == '' ? 0 : event.target.value,
+          event.target.value === "" ? 0 : event.target.value
         );
       }
     }
   };
 
   const [valueGrowthRate, setValueGrowthRate] = useState(5);
-  const GrowthRateChange = event => {
+  const GrowthRateChange = (event) => {
     if (validateWeightFormat(event)) {
       setValueGrowthRate(event.target.value);
     }
   };
 
   const [valueDiscountRate, setValueDiscountRate] = useState(5);
-  const DiscountRateChange = event => {
+  const DiscountRateChange = (event) => {
     if (validateWeightFormat(event)) {
       setValueDiscountRate(event.target.value);
     }
   };
 
   const [valueLifeSpan, setValueLifeSpan] = useState(0);
-  const LifeSpanChange = event => {
+  const LifeSpanChange = (event) => {
     if (validateWeightFormat(event)) {
       setValueLifeSpan(event.target.value);
     }
   };
 
   const [candidate_number, setCadidateValue] = useState(5);
-  const candidateChange = e => setCadidateValue(e.target.value);
+  const candidateChange = (e) => setCadidateValue(e.target.value);
 
   const [modalIsOpen, setIsOpen] = React.useState(false);
 
-  const [itemModal, setItemModal] = React.useState('');
-  const [datasetModal, setDataSetModal] = React.useState('');
+  const [itemModal, setItemModal] = React.useState("");
+  const [datasetModal, setDataSetModal] = React.useState("");
 
   function openModal() {
     setIsOpen(true);
@@ -118,7 +118,7 @@ function SectionELTV(props) {
 
   function validateWeightFormat(e) {
     const re = /^[0-9\b]+$/;
-    if (e.target.value === '' || re.test(e.target.value)) {
+    if (e.target.value === "" || re.test(e.target.value)) {
       return true;
     }
 
@@ -130,10 +130,10 @@ function SectionELTV(props) {
       labels,
       datasets: [
         {
-          label: 'Dataset 1',
+          label: "Dataset 1",
           data: data,
-          borderColor: 'rgb(53, 162, 235)',
-          backgroundColor: 'rgba(53, 162, 235, 0.5)',
+          borderColor: "rgb(53, 162, 235)",
+          backgroundColor: "rgba(53, 162, 235, 0.5)",
           datalabels: {
             display: false,
           },
@@ -211,7 +211,7 @@ function SectionELTV(props) {
     calCostList.push(0);
 
     setBarChart(calYearList, calCostList);
-    ELTVCalucateActual(item.id, calCostList);
+    ELTVCalucateActual2(item.id, calCostList);
   }
 
   function ELTVCalucateActual(profileId, calCostList) {
@@ -222,13 +222,33 @@ function SectionELTV(props) {
       const elementNext = calCostList[index + 1];
       sum += (Number.parseFloat(element) + Number.parseFloat(elementNext)) / 2;
 
-      if (index + 1 == calCostList.length - 1) {
+      if (index + 1 === calCostList.length - 1) {
         break;
       }
     }
 
-    props.candidateList.forEach(element => {
-      if (profileId == element.id) {
+    calculateTotal(eltv_value);
+  }
+
+  function ELTVCalucateActual2(profileId, calCostList) {
+    var sum = 0;
+
+    for (let index = 0; index < calCostList.length; index++) {
+      const element = calCostList[index];
+      const elementNext = calCostList[index + 1];
+      sum += (Number.parseFloat(element) + Number.parseFloat(elementNext)) / 2;
+
+      if (index + 1 === calCostList.length - 1) {
+        break;
+      }
+    }
+
+    console.log(sum);
+    console.log(valueGrowthRate);
+    console.log(valueGrowthRate);
+
+    props.candidateList.forEach((element) => {
+      if (profileId === element.id) {
         element.actualeltv = sum;
         element.growthrate = valueGrowthRate;
         element.discountrate = valueDiscountRate;
@@ -245,14 +265,15 @@ function SectionELTV(props) {
         isOpen={modalBarChartIsOpen}
         onRequestClose={closeBarChartModal}
         style={customStyles}
-        contentLabel="Bar Chart Modal">
+        contentLabel="Bar Chart Modal"
+      >
         <div className="example__header">
           <span>The Evaluation Score - {itemModal.name}</span>
           <img
             className="icon-close"
             src={iconClose}
-            width={'10px'}
-            height={'10px'}
+            width={"10px"}
+            height={"10px"}
             onClick={closeBarChartModal}
           />
         </div>
@@ -271,7 +292,7 @@ function SectionELTV(props) {
                 <td>
                   <div>
                     <input
-                      type={'text'}
+                      type={"text"}
                       className="input__weight"
                       value={valueGrowthRate}
                       onChange={GrowthRateChange}
@@ -280,14 +301,14 @@ function SectionELTV(props) {
                     />
                   </div>
                 </td>
-                <td style={{fontSize: '10px', fontWeight: 'bold'}}>%</td>
+                <td style={{ fontSize: "10px", fontWeight: "bold" }}>%</td>
               </tr>
               <tr>
                 <td>Discount rate</td>
                 <td>
                   <div>
                     <input
-                      type={'text'}
+                      type={"text"}
                       className="input__weight"
                       value={valueDiscountRate}
                       onChange={DiscountRateChange}
@@ -296,14 +317,14 @@ function SectionELTV(props) {
                     />
                   </div>
                 </td>
-                <td style={{fontSize: '10px', fontWeight: 'bold'}}>%</td>
+                <td style={{ fontSize: "10px", fontWeight: "bold" }}>%</td>
               </tr>
               <tr>
                 <td>Employee Life Span</td>
                 <td>
                   <div>
                     <input
-                      type={'text'}
+                      type={"text"}
                       className="input__weight"
                       value={valueLifeSpan}
                       onChange={LifeSpanChange}
@@ -312,15 +333,15 @@ function SectionELTV(props) {
                     />
                   </div>
                 </td>
-                <td style={{fontSize: '10px', fontWeight: 'bold'}}>Years</td>
+                <td style={{ fontSize: "10px", fontWeight: "bold" }}>Years</td>
               </tr>
               <tr>
                 <td colSpan={2}>
                   <input
-                    type={'button'}
+                    type={"button"}
                     id="finishButton"
                     className="btn btn-compare"
-                    value={'Finish'}
+                    value={"Finish"}
                     onClick={() => calculateLifeSpan2(itemModal)}
                   />
                 </td>
@@ -334,14 +355,15 @@ function SectionELTV(props) {
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
         style={customStyles}
-        contentLabel="Example Modal">
+        contentLabel="Example Modal"
+      >
         <div className="example__header">
           <span>ELTV - Example</span>
           <img
             className="icon-close"
             src={iconClose}
-            width={'10px'}
-            height={'10px'}
+            width={"10px"}
+            height={"10px"}
             onClick={closeModal}
           />
         </div>
@@ -378,7 +400,7 @@ function SectionELTV(props) {
                   <td>
                     <div>
                       <input
-                        type={'text'}
+                        type={"text"}
                         className="input__weight"
                         value={eltv_value}
                         onChange={handleChange}
@@ -399,7 +421,7 @@ function SectionELTV(props) {
                 <td>
                   <div>
                     <input
-                      type={'text'}
+                      type={"text"}
                       className="input__weight"
                       value={candidate_number}
                       onChange={candidateChange}
@@ -420,16 +442,16 @@ function SectionELTV(props) {
 
           {props.candidateList
             .sort((a, b) => {
-              if (a['eltv'] < b['eltv']) {
+              if (a["eltv"] < b["eltv"]) {
                 return 1;
               }
-              if (b['eltv'] < a['eltv']) {
+              if (b["eltv"] < a["eltv"]) {
                 return -1;
               }
               return 0;
             })
             .slice(0, candidate_number)
-            .map(item => (
+            .map((item) => (
               <a key={item.id} onClick={() => openBarChartModal(item)}>
                 <div className="candidate__box">
                   <div className="candidate__box-image">
