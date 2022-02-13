@@ -1,75 +1,75 @@
-import React, {useState, useEffect} from 'react';
-import Modal from 'react-modal';
+import React, { useState, useEffect } from "react";
+import Modal from "react-modal";
 
-import iconInfo from '../assets/images/icon-info.png';
-import iconClose from '../assets/images/icon-close.png';
+import iconInfo from "../assets/images/icon-info.png";
+import iconClose from "../assets/images/icon-close.png";
 
-import IQChart from './IQChart';
-import IQBarChart from './IQBarChart';
-import EQChart from './EQChart';
-import EQBarChart from './EQBarChart';
-import SensitivityBarChart from './SensitivityBarChart';
+import IQChart from "./IQChart";
+import IQBarChart from "./IQBarChart";
+import EQChart from "./EQChart";
+import EQBarChart from "./EQBarChart";
+import SensitivityBarChart from "./SensitivityBarChart";
 
 function SectionIQEQ(props) {
   const customStyles = {
     content: {
-      top: '50%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)',
-      width: '800px',
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+      width: "800px",
     },
   };
 
   const customStyles2 = {
     content: {
-      top: '50%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)',
-      width: '600px',
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+      width: "600px",
     },
   };
 
   const BASES3URL =
-    'https://fordstorage20220103.s3.ap-southeast-1.amazonaws.com/';
+    "https://fordstorage20220103.s3.ap-southeast-1.amazonaws.com/";
 
-  const examplefilename = 'example-iqeq.jpg';
+  const examplefilename = "example-iqeq.jpg";
 
   const [iqeq_value, setValue] = useState(0);
-  const handleChange = event => {
+  const handleChange = (event) => {
     if (validateWeightFormat(event)) {
       var sum =
-        Number.parseInt(event.target.value == '' ? 0 : event.target.value) +
+        Number.parseInt(event.target.value == "" ? 0 : event.target.value) +
         props.weight.esweight +
         props.weight.eltvweight +
         props.weight.mbtiweight;
       if (sum <= 100) {
-        setValue(event.target.value == '' ? 0 : event.target.value);
-        calcuateTotal(event.target.value == '' ? 0 : event.target.value);
+        setValue(event.target.value == "" ? 0 : event.target.value);
+        calcuateTotal(event.target.value == "" ? 0 : event.target.value);
         props.weight.iqeqweight = Number.parseInt(
-          event.target.value == '' ? 0 : event.target.value,
+          event.target.value == "" ? 0 : event.target.value
         );
       }
     }
   };
 
   const [candidate_number, setCadidateValue] = useState(5);
-  const candidateChange = e => setCadidateValue(e.target.value);
+  const candidateChange = (e) => setCadidateValue(e.target.value);
 
   const [modalIsOpen, setIsOpen] = React.useState(false);
-  const [pictureModal, setPictureModal] = React.useState('');
-  const [itemModal, setItemModal] = React.useState('');
-  const [datasetIQModal, setDataSetIQModal] = React.useState('');
-  const [datasetBarIQModal, setDataSetBarIQModal] = React.useState('');
-  const [datasetEQModal, setDataSetEQModal] = React.useState('');
+  const [pictureModal, setPictureModal] = React.useState("");
+  const [itemModal, setItemModal] = React.useState("");
+  const [datasetIQModal, setDataSetIQModal] = React.useState("");
+  const [datasetBarIQModal, setDataSetBarIQModal] = React.useState("");
+  const [datasetEQModal, setDataSetEQModal] = React.useState("");
 
   const [datasetEQBarChartModal, setDataSetEQBarChartModal] =
-    React.useState('');
+    React.useState("");
 
   function openModal() {
     setIsOpen(true);
@@ -82,8 +82,8 @@ function SectionIQEQ(props) {
   }
 
   function validateWeightFormat(e) {
-    const re = /^[0-9\b]+$/;
-    if (e.target.value === '' || re.test(e.target.value)) {
+    const re = /^[0-9\b/.]+$/;
+    if (e.target.value === "" || re.test(e.target.value)) {
       return true;
     }
 
@@ -99,13 +99,13 @@ function SectionIQEQ(props) {
     setItemModal(item);
 
     var datasetIQ = {
-      labels: ['Individual', 'Max'],
+      labels: ["Individual", "Max"],
       maintainAspectRatio: false,
       responsive: false,
       datasets: [
         {
           data: item.iq,
-          backgroundColor: ['#1C57A4', '#aaaaaa'],
+          backgroundColor: ["#1C57A4", "#aaaaaa"],
           hoverOffset: 4,
           datalabels: {
             display: false,
@@ -117,13 +117,13 @@ function SectionIQEQ(props) {
     setDataSetIQModal(datasetIQ);
 
     var datasetEQ = {
-      labels: ['Individual', 'Max'],
+      labels: ["Individual", "Max"],
       maintainAspectRatio: false,
       responsive: false,
       datasets: [
         {
           data: item.eq,
-          backgroundColor: ['#1C57A4', '#aaaaaa'],
+          backgroundColor: ["#1C57A4", "#aaaaaa"],
           hoverOffset: 4,
           datalabels: {
             display: false,
@@ -138,88 +138,88 @@ function SectionIQEQ(props) {
     var backgroundColors2 = [];
 
     switch (item.name) {
-      case 'Jame':
+      case "Jame":
         backgroundColors1 = [
-          '#1C57A4',
-          '#aaaaaa',
-          '#aaaaaa',
-          '#aaaaaa',
-          '#aaaaaa',
+          "#1C57A4",
+          "#aaaaaa",
+          "#aaaaaa",
+          "#aaaaaa",
+          "#aaaaaa",
         ];
 
         backgroundColors2 = [
-          '#aaaaaa',
-          '#aaaaaa',
-          '#1C57A4',
-          '#aaaaaa',
-          '#aaaaaa',
+          "#aaaaaa",
+          "#aaaaaa",
+          "#1C57A4",
+          "#aaaaaa",
+          "#aaaaaa",
         ];
         break;
 
-      case 'Tony':
+      case "Tony":
         backgroundColors1 = [
-          '#aaaaaa',
-          '#1C57A4',
-          '#aaaaaa',
-          '#aaaaaa',
-          '#aaaaaa',
+          "#aaaaaa",
+          "#1C57A4",
+          "#aaaaaa",
+          "#aaaaaa",
+          "#aaaaaa",
         ];
         backgroundColors2 = [
-          '#aaaaaa',
-          '#aaaaaa',
-          '#aaaaaa',
-          '#1C57A4',
-          '#aaaaaa',
+          "#aaaaaa",
+          "#aaaaaa",
+          "#aaaaaa",
+          "#1C57A4",
+          "#aaaaaa",
         ];
         break;
-      case 'Jonas':
+      case "Jonas":
         backgroundColors1 = [
-          '#aaaaaa',
-          '#aaaaaa',
-          '#1C57A4',
-          '#aaaaaa',
-          '#aaaaaa',
+          "#aaaaaa",
+          "#aaaaaa",
+          "#1C57A4",
+          "#aaaaaa",
+          "#aaaaaa",
         ];
         backgroundColors2 = [
-          '#aaaaaa',
-          '#1C57A4',
-          '#aaaaaa',
-          '#aaaaaa',
-          '#aaaaaa',
+          "#aaaaaa",
+          "#1C57A4",
+          "#aaaaaa",
+          "#aaaaaa",
+          "#aaaaaa",
         ];
         break;
-      case 'Tom':
+      case "Tom":
         backgroundColors1 = [
-          '#aaaaaa',
-          '#aaaaaa',
-          '#aaaaaa',
-          '#1C57A4',
-          '#aaaaaa',
+          "#aaaaaa",
+          "#aaaaaa",
+          "#aaaaaa",
+          "#1C57A4",
+          "#aaaaaa",
         ];
 
         backgroundColors2 = [
-          '#1C57A4',
-          '#aaaaaa',
-          '#aaaaaa',
-          '#aaaaaa',
-          '#aaaaaa',
+          "#1C57A4",
+          "#aaaaaa",
+          "#aaaaaa",
+          "#aaaaaa",
+          "#aaaaaa",
         ];
         break;
-      case 'Andy':
+      case "Andy":
         backgroundColors1 = [
-          '#aaaaaa',
-          '#aaaaaa',
-          '#aaaaaa',
-          '#aaaaaa',
-          '#1C57A4',
+          "#aaaaaa",
+          "#aaaaaa",
+          "#aaaaaa",
+          "#aaaaaa",
+          "#1C57A4",
         ];
 
         backgroundColors2 = [
-          '#aaaaaa',
-          '#aaaaaa',
-          '#aaaaaa',
-          '#aaaaaa',
-          '#1C57A4',
+          "#aaaaaa",
+          "#aaaaaa",
+          "#aaaaaa",
+          "#aaaaaa",
+          "#1C57A4",
         ];
         break;
 
@@ -228,19 +228,19 @@ function SectionIQEQ(props) {
     }
 
     var datasetBarIQ = {
-      labels: ['Jame', 'Tony', 'Jonas', 'Tom', 'Andy'],
+      labels: ["Jame", "Tony", "Jonas", "Tom", "Andy"],
       maintainAspectRatio: false,
       responsive: false,
       datasets: [
         {
           barThickness: 20,
-          label: '',
+          label: "",
           data: [123, 113, 111, 102, 94],
           backgroundColor: backgroundColors1,
           datalabels: {
-            color: 'black',
-            anchor: 'end',
-            align: 'top',
+            color: "black",
+            anchor: "end",
+            align: "top",
           },
         },
       ],
@@ -249,19 +249,19 @@ function SectionIQEQ(props) {
     setDataSetBarIQModal(datasetBarIQ);
 
     var datasetEQBarChart = {
-      labels: ['Tom', 'Jonas', 'Jame', 'Tony', 'Andy'],
+      labels: ["Tom", "Jonas", "Jame", "Tony", "Andy"],
       maintainAspectRatio: false,
       responsive: false,
       datasets: [
         {
           barThickness: 20,
-          label: '',
+          label: "",
           data: [174, 168, 155, 149, 143],
           backgroundColor: backgroundColors2,
           datalabels: {
-            color: 'black',
-            anchor: 'end',
-            align: 'top',
+            color: "black",
+            anchor: "end",
+            align: "top",
           },
         },
       ],
@@ -277,7 +277,7 @@ function SectionIQEQ(props) {
   }
 
   function calcuateTotal(w1) {
-    props.candidateList.forEach(element => {
+    props.candidateList.forEach((element) => {
       element.iqeq =
         w1 *
         (-4.76856 + 0.02548 * element.iq[0] + (0.01583 * element.eq[0]) / 1);
@@ -293,14 +293,15 @@ function SectionIQEQ(props) {
         onAfterOpen={afterBarChartOpenModal}
         onRequestClose={closeBarChartModal}
         style={customStyles2}
-        contentLabel="Bar Chart Modal">
+        contentLabel="Bar Chart Modal"
+      >
         <div className="example__header">
           <span>IQ & EQ - {itemModal.name}</span>
           <img
             className="icon-close"
             src={iconClose}
-            width={'10px'}
-            height={'10px'}
+            width={"10px"}
+            height={"10px"}
             onClick={closeBarChartModal}
           />
         </div>
@@ -347,14 +348,15 @@ function SectionIQEQ(props) {
         onAfterOpen={afterOpenModal}
         onRequestClose={closeModal}
         style={customStyles}
-        contentLabel="Example Modal">
+        contentLabel="Example Modal"
+      >
         <div className="example__header">
           <span>ELTV - Example</span>
           <img
             className="icon-close"
             src={iconClose}
-            width={'10px'}
-            height={'10px'}
+            width={"10px"}
+            height={"10px"}
             onClick={closeModal}
           />
         </div>
@@ -378,7 +380,7 @@ function SectionIQEQ(props) {
 
         <div className="section_group-detail">
           <div className="setting_title_summary">
-            Talent Prediction Score{' '}
+            Talent Prediction Score{" "}
             <span className="weight-summary">{iqeq_value}</span>
           </div>
           <hr />
@@ -392,7 +394,7 @@ function SectionIQEQ(props) {
                   <td>
                     <div>
                       <input
-                        type={'text'}
+                        type={"text"}
                         className="input__weight"
                         value={iqeq_value}
                         onChange={handleChange}
@@ -413,7 +415,7 @@ function SectionIQEQ(props) {
                 <td>
                   <div>
                     <input
-                      type={'text'}
+                      type={"text"}
                       className="input__weight"
                       value={candidate_number}
                       onChange={candidateChange}
@@ -434,16 +436,16 @@ function SectionIQEQ(props) {
 
           {props.candidateList
             .sort((a, b) => {
-              if (a['iqeq'] < b['iqeq']) {
+              if (a["iqeq"] < b["iqeq"]) {
                 return 1;
               }
-              if (b['iqeq'] < a['iqeq']) {
+              if (b["iqeq"] < a["iqeq"]) {
                 return -1;
               }
               return 0;
             })
             .slice(0, candidate_number)
-            .map(item => (
+            .map((item) => (
               <a key={item.id} onClick={() => openBarChartModal(item)}>
                 <div className="candidate__box">
                   <div className="candidate__box-image">

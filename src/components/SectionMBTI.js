@@ -1,112 +1,112 @@
-import React, {useState, useEffect} from 'react';
-import Modal from 'react-modal';
+import React, { useState, useEffect } from "react";
+import Modal from "react-modal";
 
-import iconInfo from '../assets/images/icon-info.png';
-import iconClose from '../assets/images/icon-close.png';
+import iconInfo from "../assets/images/icon-info.png";
+import iconClose from "../assets/images/icon-close.png";
 
-import RadarChart from './RadarChart';
-import RadarMBTIChart from './RadarMBTIChart';
+import RadarChart from "./RadarChart";
+import RadarMBTIChart from "./RadarMBTIChart";
 
 function SectionMBTI(props) {
-  Modal.setAppElement('#root');
+  Modal.setAppElement("#root");
 
   const customStyles = {
     content: {
-      top: '50%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)',
-      width: '800px',
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+      width: "800px",
     },
   };
 
   const customCompareStyles = {
     content: {
-      top: '50%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)',
-      width: '950px',
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+      width: "950px",
     },
   };
 
   const customStyles3 = {
     content: {
-      top: '50%',
-      left: '50%',
-      right: 'auto',
-      bottom: 'auto',
-      marginRight: '-50%',
-      transform: 'translate(-50%, -50%)',
-      width: '900px',
+      top: "50%",
+      left: "50%",
+      right: "auto",
+      bottom: "auto",
+      marginRight: "-50%",
+      transform: "translate(-50%, -50%)",
+      width: "900px",
     },
   };
 
   const _BASEAWSS3URL =
-    'https://fordstorage20220103.s3.ap-southeast-1.amazonaws.com/';
+    "https://fordstorage20220103.s3.ap-southeast-1.amazonaws.com/";
 
-  const examplefilename = 'example-mbti.jpg';
+  const examplefilename = "example-mbti.jpg";
   const _ISSHOWEXAMPLE = true;
 
   const [tb_value, setTB] = useState(0);
-  const tbChange = event => {
+  const tbChange = (event) => {
     if (validateWeightFormat(event)) {
       var sum =
-        Number.parseInt(event.target.value == '' ? 0 : event.target.value) +
+        Number.parseInt(event.target.value == "" ? 0 : event.target.value) +
         Number.parseInt(pmt_value) +
         props.weight.eltvweight +
         props.weight.iqeqweight +
         props.weight.esweight;
       if (sum <= 100) {
-        setTB(event.target.value == '' ? 0 : event.target.value);
+        setTB(event.target.value == "" ? 0 : event.target.value);
         calcuateTotal(
-          event.target.value == '' ? 0 : event.target.value,
-          pmt_value,
+          event.target.value == "" ? 0 : event.target.value,
+          pmt_value
         );
         props.weight.mbtiweight =
-          Number.parseInt(event.target.value == '' ? 0 : event.target.value) +
+          Number.parseInt(event.target.value == "" ? 0 : event.target.value) +
           Number.parseInt(pmt_value);
       }
     }
   };
 
   const [pmt_value, setPMT] = useState(0);
-  const pmtChange = event => {
+  const pmtChange = (event) => {
     if (validateWeightFormat(event)) {
       var sum =
-        Number.parseInt(event.target.value == '' ? 0 : event.target.value) +
+        Number.parseInt(event.target.value == "" ? 0 : event.target.value) +
         Number.parseInt(tb_value) +
         props.weight.eltvweight +
         props.weight.iqeqweight +
         props.weight.esweight;
       if (sum <= 100) {
-        setPMT(event.target.value == '' ? 0 : event.target.value);
+        setPMT(event.target.value == "" ? 0 : event.target.value);
         calcuateTotal(
           tb_value,
-          event.target.value == '' ? 0 : event.target.value,
+          event.target.value == "" ? 0 : event.target.value
         );
         props.weight.mbtiweight =
-          Number.parseInt(event.target.value == '' ? 0 : event.target.value) +
+          Number.parseInt(event.target.value == "" ? 0 : event.target.value) +
           Number.parseInt(tb_value);
       }
     }
   };
 
   const [candidate_number, setCadidateValue] = useState(5);
-  const candidateChange = e => setCadidateValue(e.target.value);
+  const candidateChange = (e) => setCadidateValue(e.target.value);
 
   const [modalIsOpen, setIsOpen] = React.useState(false);
   const [modalIsOpen2, setIsOpen2] = React.useState(false);
   const [isOpenMBTIChartModal, setIsOpenMBTIChartModal] = React.useState(false);
 
-  const [itemModal, setItemModal] = React.useState('');
-  const [ownerDataChart, setOwnerDataChart] = React.useState('');
-  const [teamDataChart, setTeamDataChart] = React.useState('');
-  const [deptDataChart, setDeptDataChart] = React.useState('');
+  const [itemModal, setItemModal] = React.useState("");
+  const [ownerDataChart, setOwnerDataChart] = React.useState("");
+  const [teamDataChart, setTeamDataChart] = React.useState("");
+  const [deptDataChart, setDeptDataChart] = React.useState("");
 
   const [datasetCompareChart1, setDataSetCompareChart1] = React.useState(null);
   const [datasetCompareChart2, setDataSetCompareChart2] = React.useState(null);
@@ -114,11 +114,11 @@ function SectionMBTI(props) {
 
   const [counter, setCounter] = React.useState(0);
   const [box1, setBox1] = React.useState(false);
-  const [box1name, setBox1Name] = React.useState('');
-  const [box1temp, setBox1Temp] = React.useState('');
+  const [box1name, setBox1Name] = React.useState("");
+  const [box1temp, setBox1Temp] = React.useState("");
   const [box2, setBox2] = React.useState(false);
-  const [box2name, setBox2Name] = React.useState('');
-  const [box2temp, setBox2Temp] = React.useState('');
+  const [box2name, setBox2Name] = React.useState("");
+  const [box2temp, setBox2Temp] = React.useState("");
 
   function openModal() {
     setIsOpen(true);
@@ -145,8 +145,8 @@ function SectionMBTI(props) {
     var element = document.getElementById(e);
 
     if (counter < 2) {
-      if (!element.classList.contains('cadidate-focus')) {
-        element.classList.add('cadidate-focus');
+      if (!element.classList.contains("cadidate-focus")) {
+        element.classList.add("cadidate-focus");
         var number = counter + 1;
         setCounter(number);
 
@@ -162,7 +162,7 @@ function SectionMBTI(props) {
           setDataSetinChart1(item.mbti.chart);
         }
       } else {
-        element.classList.remove('cadidate-focus');
+        element.classList.remove("cadidate-focus");
 
         var number = counter - 1;
         setCounter(number);
@@ -188,8 +188,8 @@ function SectionMBTI(props) {
         }
       }
     } else {
-      if (element.classList.contains('cadidate-focus')) {
-        element.classList.remove('cadidate-focus');
+      if (element.classList.contains("cadidate-focus")) {
+        element.classList.remove("cadidate-focus");
 
         var number = counter - 1;
         setCounter(number);
@@ -215,27 +215,27 @@ function SectionMBTI(props) {
 
   function setDataSetinChart1(data) {
     const labels = [
-      'Extraversion',
-      'Sensing',
-      'Thinking',
-      'Judging',
-      'Introversion',
-      'Intuition',
-      'Feeling',
-      'Persceiving',
+      "Extraversion",
+      "Sensing",
+      "Thinking",
+      "Judging",
+      "Introversion",
+      "Intuition",
+      "Feeling",
+      "Persceiving",
     ];
 
     var dataset = {
       labels,
       datasets: [
         {
-          label: '1 ',
-          backgroundColor: 'rgba(34, 202, 236, .2)',
-          borderColor: 'rgba(34, 202, 236, 1)',
-          pointBackgroundColor: 'rgba(34, 202, 236, 1)',
-          poingBorderColor: '#fff',
-          pointHoverBackgroundColor: '#fff',
-          pointHoverBorderColor: 'rgba(34, 202, 236, 1)',
+          label: "1 ",
+          backgroundColor: "rgba(34, 202, 236, .2)",
+          borderColor: "rgba(34, 202, 236, 1)",
+          pointBackgroundColor: "rgba(34, 202, 236, 1)",
+          poingBorderColor: "#fff",
+          pointHoverBackgroundColor: "#fff",
+          pointHoverBorderColor: "rgba(34, 202, 236, 1)",
           data: data,
           datalabels: {
             display: false,
@@ -248,8 +248,8 @@ function SectionMBTI(props) {
   }
 
   function validateWeightFormat(e) {
-    const re = /^[0-9\b]+$/;
-    if (e.target.value === '' || re.test(e.target.value)) {
+    const re = /^[0-9\b/.]+$/;
+    if (e.target.value === "" || re.test(e.target.value)) {
       return true;
     }
 
@@ -258,27 +258,27 @@ function SectionMBTI(props) {
 
   function setDataSetinChart2(data) {
     const labels = [
-      'Extraversion',
-      'Sensing',
-      'Thinking',
-      'Judging',
-      'Introversion',
-      'Intuition',
-      'Feeling',
-      'Persceiving',
+      "Extraversion",
+      "Sensing",
+      "Thinking",
+      "Judging",
+      "Introversion",
+      "Intuition",
+      "Feeling",
+      "Persceiving",
     ];
 
     var dataset = {
       labels,
       datasets: [
         {
-          label: '2',
-          backgroundColor: 'rgba(34, 202, 236, .2)',
-          borderColor: 'rgba(34, 202, 236, 1)',
-          pointBackgroundColor: 'rgba(34, 202, 236, 1)',
-          poingBorderColor: '#fff',
-          pointHoverBackgroundColor: '#fff',
-          pointHoverBorderColor: 'rgba(34, 202, 236, 1)',
+          label: "2",
+          backgroundColor: "rgba(34, 202, 236, .2)",
+          borderColor: "rgba(34, 202, 236, 1)",
+          pointBackgroundColor: "rgba(34, 202, 236, 1)",
+          poingBorderColor: "#fff",
+          pointHoverBackgroundColor: "#fff",
+          pointHoverBorderColor: "rgba(34, 202, 236, 1)",
           data: data,
           datalabels: {
             display: false,
@@ -301,7 +301,7 @@ function SectionMBTI(props) {
       item.name,
       item.mbti.chart,
       item.mbti.before,
-      item.mbti.after,
+      item.mbti.after
     );
   }
 
@@ -315,14 +315,14 @@ function SectionMBTI(props) {
 
   function setDataSetinChart3(name, chartData, teamData, DeptData) {
     const labels = [
-      'Extraversion',
-      'Sensing',
-      'Thinking',
-      'Judging',
-      'Introversion',
-      'Intuition',
-      'Feeling',
-      'Persceiving',
+      "Extraversion",
+      "Sensing",
+      "Thinking",
+      "Judging",
+      "Introversion",
+      "Intuition",
+      "Feeling",
+      "Persceiving",
     ];
 
     var dataset = {
@@ -330,38 +330,38 @@ function SectionMBTI(props) {
       datasets: [
         {
           label: name,
-          backgroundColor: 'blue',
-          borderColor: 'blue',
-          pointBackgroundColor: 'blue',
-          poingBorderColor: '#fff',
-          pointHoverBackgroundColor: '#fff',
-          pointHoverBorderColor: 'blue',
+          backgroundColor: "blue",
+          borderColor: "blue",
+          pointBackgroundColor: "blue",
+          poingBorderColor: "#fff",
+          pointHoverBackgroundColor: "#fff",
+          pointHoverBorderColor: "blue",
           data: chartData,
           datalabels: {
             display: false,
           },
         },
         {
-          label: 'Team Average Before',
-          backgroundColor: 'red',
-          borderColor: 'red',
-          pointBackgroundColor: 'red',
-          poingBorderColor: '#fff',
-          pointHoverBackgroundColor: '#fff',
-          pointHoverBorderColor: 'red',
+          label: "Team Average Before",
+          backgroundColor: "red",
+          borderColor: "red",
+          pointBackgroundColor: "red",
+          poingBorderColor: "#fff",
+          pointHoverBackgroundColor: "#fff",
+          pointHoverBorderColor: "red",
           data: teamData,
           datalabels: {
             display: false,
           },
         },
         {
-          label: 'Team Average After',
-          backgroundColor: 'green',
-          borderColor: 'green',
-          pointBackgroundColor: 'green',
-          poingBorderColor: '#fff',
-          pointHoverBackgroundColor: '#fff',
-          pointHoverBorderColor: 'green',
+          label: "Team Average After",
+          backgroundColor: "green",
+          borderColor: "green",
+          pointBackgroundColor: "green",
+          poingBorderColor: "#fff",
+          pointHoverBackgroundColor: "#fff",
+          pointHoverBorderColor: "green",
           data: DeptData,
           datalabels: {
             display: false,
@@ -374,7 +374,7 @@ function SectionMBTI(props) {
   }
 
   function calcuateTotal(w1, w2) {
-    props.candidateList.forEach(element => {
+    props.candidateList.forEach((element) => {
       element.mbti.total =
         w1 * (1 - element.mbtigraph / 400) + w2 * (element.matching / 5);
     });
@@ -388,14 +388,15 @@ function SectionMBTI(props) {
         isOpen={modalIsOpen2}
         onRequestClose={closeModal2}
         style={customStyles}
-        contentLabel="Example Modal">
+        contentLabel="Example Modal"
+      >
         <div className="example__header">
           <span>MBTI - Example</span>
           <img
             className="icon-close"
             src={iconClose}
-            width={'10px'}
-            height={'10px'}
+            width={"10px"}
+            height={"10px"}
             onClick={closeModal2}
           />
         </div>
@@ -409,14 +410,15 @@ function SectionMBTI(props) {
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
         style={customCompareStyles}
-        contentLabel="Example Modal">
+        contentLabel="Example Modal"
+      >
         <div className="chart__header">
           <span>Compare MBTI</span>
           <img
             className="icon-close"
             src={iconClose}
-            width={'10px'}
-            height={'10px'}
+            width={"10px"}
+            height={"10px"}
             onClick={closeModal}
           />
         </div>
@@ -424,20 +426,21 @@ function SectionMBTI(props) {
         <div className="modal__detail-cadidate">
           {props.candidateList
             .sort((a, b) => {
-              if (a.mbti['total'] < b.mbti['total']) {
+              if (a.mbti["total"] < b.mbti["total"]) {
                 return 1;
               }
-              if (b.mbti['total'] < a.mbti['total']) {
+              if (b.mbti["total"] < a.mbti["total"]) {
                 return -1;
               }
               return 0;
             })
             .slice(0, candidate_number)
-            .map(item => (
+            .map((item) => (
               <a
                 key={item.id}
-                onClick={() => compare('item' + item.name, item)}>
-                <div id={'item' + item.name} className="candidate__box">
+                onClick={() => compare("item" + item.name, item)}
+              >
+                <div id={"item" + item.name} className="candidate__box">
                   <div className="candidate-image">
                     <img src={_BASEAWSS3URL + item.imgurl} />
                   </div>
@@ -475,21 +478,22 @@ function SectionMBTI(props) {
         isOpen={isOpenMBTIChartModal}
         onRequestClose={closeESChartModal}
         style={customStyles3}
-        contentLabel="Example Modal">
+        contentLabel="Example Modal"
+      >
         <div className="chart__header">
           <span>MBTI - {itemModal.name}</span>
           <img
             className="icon-close"
             src={iconClose}
-            width={'10px'}
-            height={'10px'}
+            width={"10px"}
+            height={"10px"}
             onClick={closeESChartModal}
           />
         </div>
 
         <hr />
         <div className="container-detail">
-          <div className="chart__profile float-left" style={{width: '150px'}}>
+          <div className="chart__profile float-left" style={{ width: "150px" }}>
             <img
               src={_BASEAWSS3URL + itemModal.imgurl}
               width={120}
@@ -497,7 +501,7 @@ function SectionMBTI(props) {
             />
           </div>
 
-          <div className="chart__detail float-left" style={{width: '350px'}}>
+          <div className="chart__detail float-left" style={{ width: "350px" }}>
             <span className="profile-description">{itemModal.description}</span>
             <br />
             <span className="profile-type">{itemModal.type}</span>
@@ -564,12 +568,12 @@ function SectionMBTI(props) {
             </table>
           </div>
 
-          <div className="chart__radar float-left" style={{width: '320px'}}>
+          <div className="chart__radar float-left" style={{ width: "320px" }}>
             <RadarMBTIChart name={itemModal.name} data={datasetCompareChart3} />
           </div>
         </div>
         <div className="container-type">
-          <img src={_BASEAWSS3URL + itemModal.typeimgurl} width={'700'} />
+          <img src={_BASEAWSS3URL + itemModal.typeimgurl} width={"700"} />
         </div>
       </Modal>
 
@@ -589,7 +593,7 @@ function SectionMBTI(props) {
 
         <div className="section_group-detail">
           <div className="setting_title_summary">
-            MBTI{' '}
+            MBTI{" "}
             <span className="weight-summary">
               {Number.parseFloat(tb_value) + Number.parseFloat(pmt_value)}
             </span>
@@ -606,7 +610,7 @@ function SectionMBTI(props) {
                   <td>
                     <div>
                       <input
-                        type={'text'}
+                        type={"text"}
                         className="input__weight"
                         value={tb_value}
                         onChange={tbChange}
@@ -625,7 +629,7 @@ function SectionMBTI(props) {
                   <td>
                     <div>
                       <input
-                        type={'text'}
+                        type={"text"}
                         className="input__weight"
                         value={pmt_value}
                         onChange={pmtChange}
@@ -656,7 +660,7 @@ function SectionMBTI(props) {
                 <td>
                   <div>
                     <input
-                      type={'text'}
+                      type={"text"}
                       className="input__weight"
                       value={candidate_number}
                       onChange={candidateChange}
@@ -677,16 +681,16 @@ function SectionMBTI(props) {
 
           {props.candidateList
             .sort((a, b) => {
-              if (a.mbti['total'] < b.mbti['total']) {
+              if (a.mbti["total"] < b.mbti["total"]) {
                 return 1;
               }
-              if (b.mbti['total'] < a.mbti['total']) {
+              if (b.mbti["total"] < a.mbti["total"]) {
                 return -1;
               }
               return 0;
             })
             .slice(0, candidate_number)
-            .map(item => (
+            .map((item) => (
               <a key={item.id} onClick={() => openMBTIChartModal(item)}>
                 <div className="candidate__box">
                   <div className="candidate__box-image">
