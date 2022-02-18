@@ -7,6 +7,8 @@ import sourceIconClose from "../assets/images/icon-close.png";
 import BarChartEvaluationScore from "./BarChartEvaluationScore";
 
 function SectionEvaluationScore(props) {
+  Modal.setAppElement("#root");
+
   //Const Variables.
   const _BASEAWSS3URL =
     "https://fordstorage20220103.s3.ap-southeast-1.amazonaws.com/";
@@ -24,6 +26,7 @@ function SectionEvaluationScore(props) {
       width: "800px",
     },
   };
+
   //Setup Stages.
   const [valueWeight1, setValueWeight1] = useState(0);
   const weight1Change = (event) => {
@@ -36,15 +39,15 @@ function SectionEvaluationScore(props) {
         props.weight.iqeqweight +
         props.weight.mbtiweight;
 
-      // eslint-disable-next-line no-unused-expressions
-      props.weight.esweight;
       if (sum <= 100) {
         setValueWeight1(event.target.value === "" ? 0 : event.target.value);
+
         calcuateTotal(
           event.target.value === "" ? 0 : event.target.value,
           valueWeight2,
           valueWeight3
         );
+
         props.weight.esweight =
           Number.parseInt(valueWeight3) +
           Number.parseInt(valueWeight2) +
@@ -52,6 +55,7 @@ function SectionEvaluationScore(props) {
       }
     }
   };
+
   const [valueWeight2, setValueWeight2] = useState(0);
   const weight2Change = (event) => {
     if (validateWeightFormat(event)) {
@@ -62,13 +66,16 @@ function SectionEvaluationScore(props) {
         props.weight.eltvweight +
         props.weight.iqeqweight +
         props.weight.mbtiweight;
+
       if (sum <= 100) {
         setValueWeight2(event.target.value === "" ? 0 : event.target.value);
+
         calcuateTotal(
           valueWeight1,
           event.target.value === "" ? 0 : event.target.value,
           valueWeight3
         );
+
         props.weight.esweight =
           Number.parseInt(valueWeight1) +
           Number.parseInt(valueWeight3) +
@@ -87,13 +94,16 @@ function SectionEvaluationScore(props) {
         props.weight.eltvweight +
         props.weight.iqeqweight +
         props.weight.mbtiweight;
+
       if (sum <= 100) {
         setValueWeight3(event.target.value === "" ? 0 : event.target.value);
+
         calcuateTotal(
           valueWeight1,
           valueWeight2,
           event.target.value === "" ? 0 : event.target.value
         );
+
         props.weight.esweight =
           Number.parseInt(valueWeight1) +
           Number.parseInt(valueWeight2) +

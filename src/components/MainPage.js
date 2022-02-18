@@ -143,35 +143,35 @@ function MainPage() {
       const profileData = await API.graphql(graphqlOperation(listProfiles));
       const profileList = profileData.data.listProfiles.items;
 
-      var maxActualEltv = 0;
-      profileList.forEach((element) => {
-        var sum = 0;
+      // var maxActualEltv = 0;
+      // profileList.forEach((element) => {
+      //   var sum = 0;
 
-        var eltvData = element.eltvdata.data;
+      //   var eltvData = element.eltvdata.data;
 
-        for (let index = 0; index < eltvData.length; index++) {
-          const element = eltvData[index];
-          const elementNext = eltvData[index + 1];
-          sum +=
-            (Number.parseFloat(element) + Number.parseFloat(elementNext)) / 2;
+      //   for (let index = 0; index < eltvData.length; index++) {
+      //     const element = eltvData[index];
+      //     const elementNext = eltvData[index + 1];
+      //     sum +=
+      //       (Number.parseFloat(element) + Number.parseFloat(elementNext)) / 2;
 
-          if (index + 1 == eltvData.length - 1) {
-            break;
-          }
-        }
+      //     if (index + 1 === eltvData.length - 1) {
+      //       break;
+      //     }
+      //   }
 
-        element.actualeltv = sum;
-        if (maxActualEltv < sum) {
-          maxActualEltv = sum;
-        }
-      });
+      //   element.actualeltv = sum;
+      //   if (maxActualEltv < sum) {
+      //     maxActualEltv = sum;
+      //   }
+      // });
 
-      profileList.forEach((element) => {
-        element.eltv =
-          0 *
-          (Number.parseFloat(element.actualeltv) /
-            Number.parseFloat(maxActualEltv));
-      });
+      // profileList.forEach((element) => {
+      //   element.eltv =
+      //     0 *
+      //     (Number.parseFloat(element.actualeltv) /
+      //       Number.parseFloat(maxActualEltv));
+      // });
 
       setCandidateList(profileList);
     } catch (error) {

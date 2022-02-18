@@ -7,6 +7,9 @@ import iconClose from "../assets/images/icon-close.png";
 import ELTVLineChart from "./ELTVLineChart";
 
 function SectionELTV(props) {
+  Modal.setAppElement("#root");
+
+  //Const Variables.
   const BASES3URL =
     "https://fordstorage20220103.s3.ap-southeast-1.amazonaws.com/";
 
@@ -32,6 +35,10 @@ function SectionELTV(props) {
         maxActualEltv = element.actualeltv;
       }
     });
+
+    console.log(props.candidateList);
+
+    console.log(maxActualEltv);
 
     props.candidateList.forEach((element) => {
       element.eltv =
@@ -90,6 +97,8 @@ function SectionELTV(props) {
   const [itemModal, setItemModal] = React.useState("");
   const [datasetModal, setDataSetModal] = React.useState("");
 
+  const [totalSummaryValue, setTotalSummaryValue] = useState(0);
+
   function openModal() {
     setIsOpen(true);
   }
@@ -145,111 +154,112 @@ function SectionELTV(props) {
   }
 
   function calculateLifeSpan(item) {
-    console.log(valueLifeSpan);
-    var finalRate = item.discountrate - item.growthrate;
-
     var lastYear = item.eltvdata.labels.at(-1);
     var calYearList = [];
+
+    var ActualCostSummary = item.eltvdata.data.reduce(
+      (partialSum, a) => partialSum + (a > 0 ? a : 0),
+      0
+    );
+
+    var ActualCostAverage = ActualCostSummary / (item.eltvdata.data.length - 1);
 
     for (let index = 0; index < item.eltvdata.labels.length; index++) {
       calYearList.push(item.eltvdata.labels[index]);
     }
-
-    var lastCost = item.eltvdata.data.at(-1);
     var calCostList = [];
 
     for (let index = 0; index < item.eltvdata.data.length; index++) {
       calCostList.push(item.eltvdata.data[index]);
     }
 
-    for (let index = 0; index < item.lifeyear - 1; index++) {
-      var calCost = lastCost + lastCost * (finalRate / 100);
-      lastCost = calCost;
-      calCostList.push(calCost);
+    var predictionCostSummary = 0;
+
+    for (let index = 0; index < item.lifeyear; index++) {
+      var predictionCost =
+        (ActualCostAverage / Math.pow(1 + item.discountrate / 100, index + 1)) *
+        Math.pow(1 + item.growthrate / 100, index + 1);
+
+      calCostList.push(predictionCost);
+      predictionCostSummary += predictionCost;
 
       var calYear = Number.parseInt(lastYear) + 1;
       lastYear = calYear;
       calYearList.push(calYear);
     }
 
-    calYearList.push(Number.parseInt(calYearList.at(-1)) + 1);
-    calCostList.push(0);
+    var totalCostSummary = Number.parseInt(
+      ActualCostAverage + calCostList[0] + predictionCostSummary
+    );
+
+    setTotalSummaryValue(totalCostSummary);
 
     setBarChart(calYearList, calCostList);
-    ELTVCalucateActual(item.id, calCostList);
-  }
-
-  function calculateLifeSpan2(item) {
-    console.log(valueLifeSpan);
-    var finalRate = valueDiscountRate - valueGrowthRate;
-
-    var lastYear = item.eltvdata.labels.at(-1);
-    var calYearList = [];
-
-    for (let index = 0; index < item.eltvdata.labels.length; index++) {
-      calYearList.push(item.eltvdata.labels[index]);
-    }
-
-    var lastCost = item.eltvdata.data.at(-1);
-    var calCostList = [];
-
-    for (let index = 0; index < item.eltvdata.data.length; index++) {
-      calCostList.push(item.eltvdata.data[index]);
-    }
-
-    for (let index = 0; index < valueLifeSpan - 1; index++) {
-      var calCost = lastCost + lastCost * (finalRate / 100);
-      lastCost = calCost;
-      calCostList.push(calCost);
-
-      var calYear = Number.parseInt(lastYear) + 1;
-      lastYear = calYear;
-      calYearList.push(calYear);
-    }
-
-    calYearList.push(Number.parseInt(calYearList.at(-1)) + 1);
-    calCostList.push(0);
-
-    setBarChart(calYearList, calCostList);
-    ELTVCalucateActual2(item.id, calCostList);
-  }
-
-  function ELTVCalucateActual(profileId, calCostList) {
-    var sum = 0;
-
-    for (let index = 0; index < calCostList.length; index++) {
-      const element = calCostList[index];
-      const elementNext = calCostList[index + 1];
-      sum += (Number.parseFloat(element) + Number.parseFloat(elementNext)) / 2;
-
-      if (index + 1 === calCostList.length - 1) {
-        break;
-      }
-    }
-
     calculateTotal(eltv_value);
   }
 
-  function ELTVCalucateActual2(profileId, calCostList) {
-    var sum = 0;
+  function calculateLifeSpan2(item) {
+    var lastYear = item.eltvdata.labels.at(-1);
+    var calYearList = [];
 
-    for (let index = 0; index < calCostList.length; index++) {
-      const element = calCostList[index];
-      const elementNext = calCostList[index + 1];
-      sum += (Number.parseFloat(element) + Number.parseFloat(elementNext)) / 2;
+    var ActualCostSummary = item.eltvdata.data.reduce(
+      (partialSum, a) => partialSum + (a > 0 ? a : 0),
+      0
+    );
 
-      if (index + 1 === calCostList.length - 1) {
-        break;
-      }
+    var ActualCostAverage = ActualCostSummary / (item.eltvdata.data.length - 1);
+
+    for (let index = 0; index < item.eltvdata.labels.length; index++) {
+      calYearList.push(item.eltvdata.labels[index]);
     }
 
-    console.log(sum);
-    console.log(valueGrowthRate);
-    console.log(valueGrowthRate);
+    var calCostList = [];
+
+    for (let index = 0; index < item.eltvdata.data.length; index++) {
+      calCostList.push(item.eltvdata.data[index]);
+    }
+
+    var predictionCostSummary = 0;
+
+    for (let index = 0; index < valueLifeSpan; index++) {
+      var predictionCost =
+        (ActualCostAverage / Math.pow(1 + item.discountrate / 100, index + 1)) *
+        Math.pow(1 + item.growthrate / 100, index + 1);
+
+      calCostList.push(predictionCost);
+      predictionCostSummary += predictionCost;
+
+      var calYear = Number.parseInt(lastYear) + 1;
+      lastYear = calYear;
+      calYearList.push(calYear);
+    }
+
+    var totalCostSummary = Number.parseInt(
+      ActualCostAverage + calCostList[0] + predictionCostSummary
+    );
+
+    setTotalSummaryValue(totalCostSummary);
+
+    setBarChart(calYearList, calCostList);
+    ELTVCalucateActual2(item.id, totalCostSummary);
+  }
+
+  function ELTVCalucateActual2(profileId, totalCostSummary) {
+    // var sum = 0;
+
+    // for (let index = 0; index < calCostList.length; index++) {
+    //   const element = calCostList[index];
+    //   const elementNext = calCostList[index + 1];
+    //   sum += (Number.parseFloat(element) + Number.parseFloat(elementNext)) / 2;
+
+    //   if (index + 1 === calCostList.length - 1) {
+    //     break;
+    //   }
+    // }
 
     props.candidateList.forEach((element) => {
       if (profileId === element.id) {
-        element.actualeltv = sum;
+        element.actualeltv = totalCostSummary;
         element.growthrate = valueGrowthRate;
         element.discountrate = valueDiscountRate;
         element.lifeyear = valueLifeSpan;
@@ -336,7 +346,7 @@ function SectionELTV(props) {
                 <td style={{ fontSize: "10px", fontWeight: "bold" }}>Years</td>
               </tr>
               <tr>
-                <td colSpan={2}>
+                <td colSpan={3}>
                   <input
                     type={"button"}
                     id="finishButton"
@@ -344,6 +354,19 @@ function SectionELTV(props) {
                     value={"Finish"}
                     onClick={() => calculateLifeSpan2(itemModal)}
                   />
+                </td>
+              </tr>
+              <tr>
+                <td
+                  colSpan={3}
+                  style={{
+                    textAlign: "center",
+                    paddingTop: "15px",
+                    fontSize: "12px",
+                  }}
+                >
+                  Total (Sum) :{" "}
+                  {Intl.NumberFormat("en-US").format(totalSummaryValue)}
                 </td>
               </tr>
             </tbody>

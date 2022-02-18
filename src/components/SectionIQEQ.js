@@ -11,6 +11,8 @@ import EQBarChart from "./EQBarChart";
 import SensitivityBarChart from "./SensitivityBarChart";
 
 function SectionIQEQ(props) {
+  Modal.setAppElement("#root");
+
   const customStyles = {
     content: {
       top: "50%",
