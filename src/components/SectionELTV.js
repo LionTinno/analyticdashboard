@@ -70,14 +70,14 @@ function SectionELTV(props) {
 
   const [valueGrowthRate, setValueGrowthRate] = useState(5);
   const GrowthRateChange = (event) => {
-    if (validateWeightFormat(event)) {
+    if (validateWeightFormat2(event)) {
       setValueGrowthRate(event.target.value);
     }
   };
 
   const [valueDiscountRate, setValueDiscountRate] = useState(5);
   const DiscountRateChange = (event) => {
-    if (validateWeightFormat(event)) {
+    if (validateWeightFormat2(event)) {
       setValueDiscountRate(event.target.value);
     }
   };
@@ -85,7 +85,9 @@ function SectionELTV(props) {
   const [valueLifeSpan, setValueLifeSpan] = useState(0);
   const LifeSpanChange = (event) => {
     if (validateWeightFormat(event)) {
-      setValueLifeSpan(event.target.value);
+      if (event.target.value > 0) {
+        setValueLifeSpan(event.target.value);
+      }
     }
   };
 
@@ -127,6 +129,15 @@ function SectionELTV(props) {
 
   function validateWeightFormat(e) {
     const re = /^[0-9\b/.]+$/;
+    if (e.target.value === "" || re.test(e.target.value)) {
+      return true;
+    }
+
+    return false;
+  }
+
+  function validateWeightFormat2(e) {
+    const re = /^[0-9\b/./-]+$/;
     if (e.target.value === "" || re.test(e.target.value)) {
       return true;
     }
