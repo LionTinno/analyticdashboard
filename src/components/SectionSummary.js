@@ -17,7 +17,7 @@ function SectionSummary(props) {
       bottom: "auto",
       marginRight: "-50%",
       transform: "translate(-50%, -50%)",
-      width: "800px",
+      width: "1000px",
     },
   };
 
@@ -144,7 +144,10 @@ function SectionSummary(props) {
         <div className="container-detail" style={{ height: "100%" }}>
           <div
             className="chart__detail float-left"
-            style={{ width: "300px", border: "0.5px solid lightgray" }}
+            style={{
+              width: "300px",
+              border: "0.5px solid lightgray",
+            }}
           >
             <img
               src={_BASEAWSS3URL + "performance-" + itemModal.name + ".png"}
@@ -174,13 +177,17 @@ function SectionSummary(props) {
 
           <div
             className="chart__detail float-left"
-            style={{ width: "480px", border: "0.5px solid lightgray" }}
+            style={{
+              width: "680px",
+              height: "auto",
+              border: "0.5px solid lightgray",
+            }}
           >
             <div style={{ position: "relative", width: "480px" }}>
               <img
                 src={_BASEAWSS3URL + itemModal.imgurl}
-                width={100}
-                height={100}
+                width={80}
+                height={80}
                 style={{
                   position: "relative",
                   display: "inline-block",
@@ -193,24 +200,24 @@ function SectionSummary(props) {
                   position: "relative",
                   display: "inline-block",
                   top: "0",
-                  marginLeft: "50px",
+                  marginLeft: "20px",
                 }}
               >
                 <p style={{ fontSize: "10px", fontWeight: "bold" }}>
                   Employment Detail:
                 </p>
-                <table>
+                <table style={{ width: "600px" }}>
                   <tbody>
                     <tr>
-                      <td>Service Year</td>
+                      <td style={{ width: "100px" }}>Service Year</td>
                       <td style={{ textAlign: "left" }}>{valueService}</td>
                     </tr>
                     <tr>
-                      <td>Recuritment Cost (THB)</td>
+                      <td style={{ width: "100px" }}>Recuritment Cost (THB)</td>
                       <td style={{ textAlign: "left" }}>{valueCost} THB</td>
                     </tr>
                     <tr>
-                      <td>Resign Prediction</td>
+                      <td style={{ width: "100px" }}>Resign Prediction</td>
                       <td style={{ textAlign: "left" }}>
                         {valueResignPrediction}
                       </td>
@@ -227,11 +234,11 @@ function SectionSummary(props) {
                   Performance Rating:
                 </p>
 
-                <table>
+                <table style={{ width: "600px" }}>
                   <tbody>
                     {valuePerformanceList.map((item) => (
                       <tr>
-                        <td>{item.topic}</td>
+                        <td style={{ width: "100px" }}>{item.topic}</td>
                         <td style={{ textAlign: "left" }}>
                           {item.value == "Top Acheiver" ? (
                             <span style={{ color: "green" }}>{item.value}</span>
@@ -258,7 +265,7 @@ function SectionSummary(props) {
             <div
               style={{
                 position: "relative",
-                width: "479px",
+                width: "680px",
                 border: "0.5px solid lightgray",
                 backgroundColor: "#F3F6F9",
                 top: "10px",

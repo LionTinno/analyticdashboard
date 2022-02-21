@@ -376,7 +376,7 @@ function SectionELTV(props) {
                     fontSize: "12px",
                   }}
                 >
-                  Total (Sum) :{" "}
+                  ELTV Value :{" "}
                   {Intl.NumberFormat("en-US").format(totalSummaryValue)}
                 </td>
               </tr>
